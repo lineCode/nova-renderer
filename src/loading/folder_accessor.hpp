@@ -8,7 +8,6 @@
 
 #include <mutex>
 #include "nova_renderer/util/filesystem.hpp"
-#include "nova_renderer/util/utils.hpp"
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -52,11 +51,18 @@ namespace nova::renderer {
         [[nodiscard]] bool does_resource_exist(const fs::path& resource_path);
 
         /*!
+         * \brief Loads the resource with the given path, returning it as a byte array
+         *
+         * \param resource_path The path of the resource to load, relative to the resourcepack's root
+         */
+        [[nodiscard]] virtual std::vector<uint8_t> read_file(const fs::path& resource_path) = 0;
+
+        /*!
          * \brief Loads the resource with the given path
          * \param resource_path The path to the resource to load, relative to this resourcepack's root
          * \return All the bytes in the loaded resource
          */
-        [[nodiscard]] virtual std::string read_text_file(const fs::path& resource_path) = 0;
+        [[nodiscard]] std::string read_text_file(const fs::path& resource_path);
 
         /*!
          * \brief Loads the file at the provided path as a series of 32-bit numbers
@@ -88,14 +94,14 @@ namespace nova::renderer {
 
         std::unique_ptr<std::mutex> resource_existence_mutex;
 
-        std::optional<bool> does_resource_exist_in_map(const std::string& resource_string) const;
+        [[nodiscard]] std::optional<bool> does_resource_exist_in_map(const std::string& resource_string) const;
 
         /*!
          * \brief Like the non-internal one, but does not add the folder's root to resource_path
          *
          * \param resource_path The path to the resource, with `our_root` already appended
          */
-        virtual bool does_resource_exist_on_filesystem(const fs::path& resource_path) = 0;
+        [[nodiscard]] virtual bool does_resource_exist_on_filesystem(const fs::path& resource_path) = 0;
     };
 
     /*!
@@ -104,7 +110,7 @@ namespace nova::renderer {
      * \param root The potential root path of the file
      * \return True if `path` has `root` as its root, false otherwise
      */
-    bool has_root(const fs::path& path, const fs::path& root);
+    [[nodiscard]] bool has_root(const fs::path& path, const fs::path& root);
 } // namespace nova::renderer
 
 #endif // NOVA_RENDERER_RESOURCEPACK_H

@@ -5,7 +5,7 @@
 namespace nova::renderer {
     RegularFolderAccessor::RegularFolderAccessor(const fs::path& folder) : FolderAccessorBase(folder) {}
 
-    std::string RegularFolderAccessor::read_text_file(const fs::path& resource_path) {
+    std::vector<uint8_t> RegularFolderAccessor::read_file(const fs::path& resource_path) {
         std::lock_guard l(*resource_existence_mutex);
         fs::path full_resource_path;
         if(has_root(resource_path, *root_folder)) {

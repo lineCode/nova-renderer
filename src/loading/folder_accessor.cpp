@@ -13,6 +13,12 @@ namespace nova::renderer {
         return does_resource_exist_on_filesystem(full_path);
     }
 
+    std::string FolderAccessorBase::read_text_file(const fs::path& resource_path) {
+        const auto& file_data = read_file(resource_path);
+        return std::string{reinterpret_cast<char>(file_data.data())};
+    }
+
+
     std::vector<uint32_t> FolderAccessorBase::read_spirv_file(fs::path& resource_path) {
         const std::string buf = read_text_file(resource_path);
 

@@ -30,7 +30,6 @@ namespace nova::renderer {
     ntl::Result<ImageResource> ResourceManager::load_image(const fs::path& resource_path) noexcept {
         for(const std::unique_ptr<FolderAccessorBase>& root : resource_folders) {
             if(root->does_resource_exist(resource_path)) {
-
             }
         }
     }
