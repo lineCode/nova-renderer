@@ -17,7 +17,7 @@
 
 namespace nova::renderer {
     /*!
-     * \brief A collection of resources on the filsysstem
+     * \brief A collection of resources on the filesystem
      *
      * "resourcepack" isn't the exact right name here. This isn't strictly a resourcepack in the Minecraft sense - it
      * can be, sure, but it can also be a pure shaderpack. Ths main point is to abstract away loading resources from a
@@ -49,14 +49,14 @@ namespace nova::renderer {
          * resourcepack's root
          * \return True if the resource exists, false if it does not
          */
-        bool does_resource_exist(const fs::path& resource_path);
+        [[nodiscard]] bool does_resource_exist(const fs::path& resource_path);
 
         /*!
          * \brief Loads the resource with the given path
          * \param resource_path The path to the resource to load, relative to this resourcepack's root
          * \return All the bytes in the loaded resource
          */
-        virtual std::string read_text_file(const fs::path& resource_path) = 0;
+        [[nodiscard]] virtual std::string read_text_file(const fs::path& resource_path) = 0;
 
         /*!
          * \brief Loads the file at the provided path as a series of 32-bit numbers
@@ -64,16 +64,16 @@ namespace nova::renderer {
          * \param resource_path The path to the SPIR-V file to load, relative to this resourcepack's root
          * \return All the 32-bit numbers in the SPIR-V file
          */
-        std::vector<uint32_t> read_spirv_file(fs::path& resource_path);
+        [[nodiscard]] std::vector<uint32_t> read_spirv_file(fs::path& resource_path);
 
         /*!
          * \brief Retrieves the paths of all the items in the specified folder
          * \param folder The folder to get all items from
          * \return A list of all the paths in the provided folder
          */
-        virtual std::vector<fs::path> get_all_items_in_folder(const fs::path& folder) = 0;
+        [[nodiscard]] virtual std::vector<fs::path> get_all_items_in_folder(const fs::path& folder) = 0;
 
-        std::shared_ptr<fs::path> get_root() const;
+        [[nodiscard]] std::shared_ptr<fs::path> get_root() const;
 
     protected:
         std::shared_ptr<fs::path> root_folder;

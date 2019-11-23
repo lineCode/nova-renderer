@@ -17,7 +17,7 @@ namespace nova::renderer {
     /*!
      * \brief Allows access to a zip folder
      */
-    class ZipFolderAccessor : public FolderAccessorBase {
+    class ZipFolderAccessor final : public FolderAccessorBase {
     public:
         explicit ZipFolderAccessor(const fs::path& folder);
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "nova_renderer/util/filesystem.hpp"
 
 namespace nova::renderer {

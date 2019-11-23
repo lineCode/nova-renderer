@@ -173,6 +173,10 @@ set(NOVA_SOURCE
         src/memory/bytes.cpp
         src/memory/mallocator.cpp
         src/memory/system_memory_allocator.cpp
+
+		src/resource_management/resource_manager.hpp
+		src/resource_management/resource_manager.cpp
+
         )
 
 #################################################################

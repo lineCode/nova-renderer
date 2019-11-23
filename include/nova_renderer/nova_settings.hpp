@@ -4,8 +4,11 @@
 #include <vector>
 
 #include "nova_renderer/util/utils.hpp"
+#include "nova_renderer/bytes.hpp"
 
 namespace nova::renderer {
+
+    using namespace bvestl::polyalloc::operators;
 
     struct Semver {
         uint32_t major;
@@ -210,6 +213,13 @@ namespace nova::renderer {
              */
             bool is_uma = false;
         } system_info;
+
+        /*!
+         * \brief Options related to resource loading and caching, such as the default resource root directory or the size of the RAM cache
+         */
+        struct ResourceOptions {
+            bvestl::polyalloc::Bytes texture_cache_size = 1_gb;
+        };
 
         uint32_t max_in_flight_frames = 3;
 
