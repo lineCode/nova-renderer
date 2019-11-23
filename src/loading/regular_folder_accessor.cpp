@@ -32,16 +32,15 @@ namespace nova::renderer {
         std::fseek(resource_file, 0, SEEK_END);
         const auto file_size = std::ftell(resource_file);
 
-        std::string file_string;
-        file_string.resize(file_size);
+        std::vector<uint8_t> file_data(file_size);
 
         std::fseek(resource_file, 0, SEEK_SET);
 
-        std::fread(file_string.data(), sizeof(char), file_size, resource_file);
+        std::fread(file_data.data(), sizeof(uint8_t), file_size, resource_file);
 
         std::fclose(resource_file);
 
-        return file_string;
+        return file_data;
     }
 
     std::vector<fs::path> RegularFolderAccessor::get_all_items_in_folder(const fs::path& folder) {
