@@ -2,9 +2,9 @@
 
 #include "nova_renderer/util/filesystem.hpp"
 #include "nova_renderer/util/result.hpp"
+#include "image_resource.hpp"
 
 namespace nova::renderer {
-    class ImageResource;
     class FolderAccessorBase;
 
     struct NovaSettings {
@@ -71,9 +71,12 @@ namespace nova::renderer {
         /*!
          * \brief Loads an image from disk
          *
+         * This method will load the image from disk every time, because cache invalidation is one of the two hard problems in computer
+         * science
+         *
          * \param resource_path The path from the resource manager root to the image
          */
-        [[nodiscard]] ntl::Result<ImageResource> load_image(const fs::path& resource_path) noexcept;
+        [[nodiscard]] ImageData load_image(const fs::path& resource_path) noexcept;
 
     private:
         std::vector<std::unique_ptr<FolderAccessorBase>> resource_folders;

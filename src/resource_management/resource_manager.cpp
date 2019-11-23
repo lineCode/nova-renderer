@@ -27,10 +27,14 @@ namespace nova::renderer {
 
     void ResourceManager::clear_research_search_path() { resource_folders.clear(); }
 
-    ntl::Result<ImageResource> ResourceManager::load_image(const fs::path& resource_path) noexcept {
+    ImageData ResourceManager::load_image(const fs::path& resource_path) noexcept {
         for(const std::unique_ptr<FolderAccessorBase>& root : resource_folders) {
             if(root->does_resource_exist(resource_path)) {
+                const std::vector<uint8_t> image_data = root->read_file(resource_path);
             }
         }
+
+        // TODO
+        return {};
     }
 } // namespace nova::renderer

@@ -176,7 +176,9 @@ set(NOVA_SOURCE
 
 		src/resource_management/resource_manager.hpp
 		src/resource_management/resource_manager.cpp
-
+		src/resource_management/resource_handle.hpp
+		src/resource_management/image_resource.hpp
+		src/resource_management/image_resource.cpp
         )
 
 #################################################################
