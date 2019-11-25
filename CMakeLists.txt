@@ -179,6 +179,10 @@ set(NOVA_SOURCE
 		src/resource_management/resource_handle.hpp
 		src/resource_management/image_resource.hpp
 		src/resource_management/image_resource.cpp
+		
+		src/virtual_texturing/virtual_texturing.hpp
+		src/virtual_texturing/virtual_texturing.cpp
+
         )
 
 #################################################################
@@ -369,26 +373,6 @@ if(NOVA_ENABLE_OPENGL_RHI)
 endif()
 
 include(GNUInstallDirs)
-
-# TODO: Never care about CMake packages ever again
-# install(
-#     TARGETS nova-renderer
-#     EXPORT nova-renderer-config
-#     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/
-#     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/
-#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/
-# )
-# 
-# install(
-#     EXPORT nova-renderer-config DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/nova-renderer
-#     NAMESPACE nova-renderer::
-# )
-# 
-# install(
-#     DIRECTORY ${CMAKE_SOURCE_DIR}/src/
-#     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/nova-renderer
-#     FILES_MATCHING PATTERN "*.hpp*"
-# )
 
 ##################################
 # Add extra warnings if possible #

@@ -18,6 +18,7 @@
 #include "json_interop.hpp"
 #include "render_graph_builder.hpp"
 #include "shaderpack_validator.hpp"
+#include "../../virtual_texturing/virtual_texturing.hpp"
 
 namespace nova::renderer::shaderpack {
     // Removed from the GLSLang version we're using
@@ -197,9 +198,9 @@ namespace nova::renderer::shaderpack {
 
         ShaderpackData data{};
         data.resources = load_dynamic_resources_file(folder_access);
-        data.passes = load_passes_file(folder_access).value;    // TODO: Gracefully handle errors
         data.pipelines = load_pipeline_files(folder_access);
         data.materials = load_material_files(folder_access);
+        data.passes = load_passes_file(folder_access).value; // TODO: Gracefully handle errors
 
         fill_in_render_target_formats(data);
 
@@ -252,7 +253,7 @@ namespace nova::renderer::shaderpack {
             const auto json_passes = nlohmann::json::parse(passes_bytes);
             const auto passes = json_passes.get<std::vector<RenderPassCreateInfo>>();
 
-            return order_passes(passes);
+            return ntl::Result(passes);
         }
         catch(nlohmann::json::parse_error& err) {
             return ntl::Result<std::vector<RenderPassCreateInfo>>(

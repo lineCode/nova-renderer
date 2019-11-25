@@ -9,17 +9,17 @@
 #define NOVA_RENDERER_SHADERPACK_DATA_HPP
 
 #include <cstdint>
-#include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "util/filesystem.hpp"
-#include "util/utils.hpp"
-
-#include <vulkan/vulkan.h>
 
 #include <glm/glm.hpp>
+#include <nlohmann/json.hpp>
+#include <vulkan/vulkan.h>
+
+#include "util/filesystem.hpp"
+#include "util/utils.hpp"
 
 namespace nova::renderer::shaderpack {
     /*!
@@ -202,10 +202,34 @@ namespace nova::renderer::shaderpack {
     enum class RenderQueueEnum { Transparent, Opaque, Cutout };
 
     enum class PixelFormatEnum {
+        /*
+         * \brief Four-component format where each component is an 8-bit unsigned integer. Suitable for non-depth data
+         */
         RGBA8,
+
+        /*!
+         * \brief Four-component format where each component is a 16-bit signed float. Suitable for non-depth data
+         */
         RGBA16F,
+
+        /*!
+         * \brief Four-component format where each component is a 32-bit signed float. Suitable for non-depth data
+         */
         RGBA32F,
+
+        /*!
+         * \brief One-component format where the one component is an unsigned 32-bit integer. Suitable for non-depth data
+         */
+        U32,
+
+        /*!
+         * \brief 32-bit depth
+         */
         Depth,
+
+        /*!
+         * \brief 24-bit depth, 8-bit stencil
+         */
         DepthStencil,
     };
 
@@ -466,7 +490,7 @@ namespace nova::renderer::shaderpack {
          */
         std::string name{};
 
-		PixelFormatEnum pixel_format;
+        PixelFormatEnum pixel_format;
 
         /*!
          * \brief Whether to clear it
@@ -607,6 +631,6 @@ namespace nova::renderer::shaderpack {
     [[nodiscard]] std::string to_string(VertexFieldEnum val);
 
     [[nodiscard]] uint32_t pixel_format_to_pixel_width(PixelFormatEnum format);
-} // namespace nova::renderer
+} // namespace nova::renderer::shaderpack
 
 #endif // NOVA_RENDERER_SHADERPACK_DATA_HPP

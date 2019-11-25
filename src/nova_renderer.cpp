@@ -255,6 +255,7 @@ namespace nova::renderer {
         glslang::InitializeProcess();
 
         const shaderpack::ShaderpackData data = shaderpack::load_shaderpack_data(fs::path(shaderpack_name.c_str()));
+        // TODO: Insert the passes, pipelines, and resources that Nova's builtin algorithms (virtual texturing) need
 
         if(shaderpack_loaded) {
             destroy_render_passes();
@@ -286,7 +287,9 @@ namespace nova::renderer {
     void NovaRenderer::create_render_passes(const std::vector<shaderpack::RenderPassCreateInfo>& pass_create_infos,
                                             const std::vector<shaderpack::PipelineCreateInfo>& pipelines,
                                             const std::vector<shaderpack::MaterialData>& materials) {
-        rhi->set_num_renderpasses(static_cast<uint32_t>(pass_create_infos.size()));
+        const auto& ordered_passes = order_passes(pass_create_infos).value; // TODO: Handle errors somehow
+
+        rhi->set_num_renderpasses(static_cast<uint32_t>(ordered_passes.size()));
 
         uint32_t total_num_descriptors = 0;
         for(const shaderpack::MaterialData& material_data : materials) {
@@ -297,7 +300,7 @@ namespace nova::renderer {
 
         rhi::DescriptorPool* descriptor_pool = rhi->create_descriptor_pool(total_num_descriptors, 5, total_num_descriptors);
 
-        for(const shaderpack::RenderPassCreateInfo& create_info : pass_create_infos) {
+        for(const shaderpack::RenderPassCreateInfo& create_info : ordered_passes) {
             Renderpass renderpass;
             RenderpassMetadata metadata;
             metadata.data = create_info;
