@@ -283,9 +283,12 @@ else()
     set(OTHER_NOVA_SOURCE ${WINDOWS_NOVA_SOURCE})
 endif()
 
+source_group(TREE ${CMAKE_CURRENT_LIST_DIR} FILES ${NOVA_SOURCE})
+
 ##########################################
 # Set platform dependent compile options #
 ##########################################
+
 if (UNIX)
     add_compile_options_if_supported(-g -fno-omit-frame-pointer -fPIC -fdiagnostics-color=always -Wpessimizing-move -Wredundant-move)
 endif()
@@ -461,11 +464,11 @@ if(WIN32)
 
     # Visual Studio is stupid. Is it really that hard to use filesystem directories to organize code like literally
     # everyone else?
-    foreach(source IN LISTS NOVA_SOURCE)
-        get_filename_component(source_path "${source}" PATH)
-        string(REPLACE "/" "\\" source_path_msvc "${source_path}")
-        source_group("${source_path_msvc}" FILES "${source}")
-    endforeach()
+    # foreach(source IN LISTS NOVA_SOURCE)
+    #     get_filename_component(source_path "${source}" PATH)
+    #     string(REPLACE "/" "\\" source_path_msvc "${source_path}")
+    #     source_group("${source_path_msvc}" FILES "${source}")
+    # endforeach()
 
 else()
     # GCC and Clang complain loudly about the #pragma region stuff. This shuts them up.

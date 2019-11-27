@@ -38,7 +38,7 @@
 #endif
 
 #include "util/logger.hpp"
-
+#include "virtual_texturing/virtual_texturing.hpp"
 using namespace bvestl::polyalloc;
 using namespace bvestl::polyalloc::operators;
 
@@ -254,8 +254,11 @@ namespace nova::renderer {
         MTR_SCOPE("ShaderpackLoading", "load_shaderpack");
         glslang::InitializeProcess();
 
-        const shaderpack::ShaderpackData data = shaderpack::load_shaderpack_data(fs::path(shaderpack_name.c_str()));
-        // TODO: Insert the passes, pipelines, and resources that Nova's builtin algorithms (virtual texturing) need
+        shaderpack::ShaderpackData data = shaderpack::load_shaderpack_data(fs::path(shaderpack_name.c_str()));
+
+        // Insert the passes, pipelines, and resources that Nova's builtin algorithms (virtual texturing) need
+        data.passes.push_back(get_virtual_texture_id_pass_definition());
+        data.materials.push_back(get_virtual_texture_material_definition());
 
         if(shaderpack_loaded) {
             destroy_render_passes();

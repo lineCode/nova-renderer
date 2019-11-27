@@ -1,28 +1,28 @@
 #include "folder_accessor.hpp"
-
+#include <utility>
 #include "../util/logger.hpp"
 
 namespace nova::renderer {
-    FolderAccessorBase::FolderAccessorBase(const fs::path& folder)
-        : root_folder(std::make_shared<fs::path>(folder)), resource_existence_mutex(new std::mutex) {}
+    FolderAccessorBase::FolderAccessorBase(fs::path folder)
+        : root_folder(std::move(folder)), resource_existence_mutex(new std::mutex) {}
 
     bool FolderAccessorBase::does_resource_exist(const fs::path& resource_path) {
         std::lock_guard l(*resource_existence_mutex);
 
-        const auto full_path = *root_folder / resource_path;
+        const auto full_path = root_folder / resource_path;
         return does_resource_exist_on_filesystem(full_path);
     }
 
     std::string FolderAccessorBase::read_text_file(const fs::path& resource_path) {
         const auto& file_data = read_file(resource_path);
-        return std::string{reinterpret_cast<char>(file_data.data())};
+        return std::string{reinterpret_cast<const char*>(file_data.data())};
     }
 
 
     std::vector<uint32_t> FolderAccessorBase::read_spirv_file(fs::path& resource_path) {
         const std::string buf = read_text_file(resource_path);
 
-        const uint32_t* buf_data = reinterpret_cast<const uint32_t*>(buf.data());
+        const auto* buf_data = reinterpret_cast<const uint32_t*>(buf.data());
         std::vector<uint32_t> ret_val;
         ret_val.reserve(buf.size() / 4);
         ret_val.insert(ret_val.begin(), buf_data, buf_data + (buf.size() / 4));
@@ -38,7 +38,7 @@ namespace nova::renderer {
         return {};
     }
 
-    std::shared_ptr<fs::path> FolderAccessorBase::get_root() const { return root_folder; }
+    const fs::path& FolderAccessorBase::get_root() const { return root_folder; }
 
     bool has_root(const fs::path& path, const fs::path& root) {
         if(std::distance(path.begin(), path.end()) < std::distance(root.begin(), root.end())) {

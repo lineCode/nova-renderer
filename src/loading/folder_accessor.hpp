@@ -28,7 +28,7 @@ namespace nova::renderer {
          * \brief Initializes this resourcepack to load resources from the folder/zip file with the provided name
          * \param folder The name of the folder or zip file to load resources from, relative to Nova's working directory
          */
-        explicit FolderAccessorBase(const fs::path& folder);
+        explicit FolderAccessorBase(fs::path folder);
 
         FolderAccessorBase(FolderAccessorBase&& other) noexcept = default;
         FolderAccessorBase& operator=(FolderAccessorBase&& other) noexcept = default;
@@ -79,10 +79,10 @@ namespace nova::renderer {
          */
         [[nodiscard]] virtual std::vector<fs::path> get_all_items_in_folder(const fs::path& folder) = 0;
 
-        [[nodiscard]] std::shared_ptr<fs::path> get_root() const;
+        [[nodiscard]] const fs::path& get_root() const;
 
     protected:
-        std::shared_ptr<fs::path> root_folder;
+        fs::path root_folder;
 
         /*!
          * \brief I expect certain resources, like textures, to be requested a lot as Nova streams them in and out of

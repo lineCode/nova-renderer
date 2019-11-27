@@ -18,7 +18,6 @@
 #include "json_interop.hpp"
 #include "render_graph_builder.hpp"
 #include "shaderpack_validator.hpp"
-#include "../../virtual_texturing/virtual_texturing.hpp"
 
 namespace nova::renderer::shaderpack {
     // Removed from the GLSLang version we're using

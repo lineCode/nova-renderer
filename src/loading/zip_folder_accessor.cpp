@@ -26,7 +26,7 @@ namespace nova::renderer {
     void ZipFolderAccessor::delete_file_tree(std::unique_ptr<FileTreeNode>& node) { node = nullptr; }
 
     std::vector<uint8_t> ZipFolderAccessor::read_file(const fs::path& resource_path) {
-        const fs::path full_path = *root_folder / resource_path;
+        const fs::path full_path = root_folder / resource_path;
 
         const std::string& resource_string = full_path.string();
         if(!does_resource_exist_on_filesystem(full_path)) {
